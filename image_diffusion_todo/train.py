@@ -63,6 +63,7 @@ def main(args):
         mode="linear",
     )
 
+    # UNet 아키텍처 사용
     network = UNet(
         T=config.num_diffusion_train_timesteps,
         image_resolution=image_resolution,
@@ -137,6 +138,7 @@ if __name__ == "__main__":
         default=3000,
         help="max number of images per category for AFHQ dataset",
     )
+    # 디퓨전 스텝의 수
     parser.add_argument(
         "--num_diffusion_train_timesteps",
         type=int,

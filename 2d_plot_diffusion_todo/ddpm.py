@@ -88,7 +88,6 @@ class DiffusionModule(nn.Module):
         # Compute xt.
         alphas_prod_t = extract(self.var_scheduler.alphas_cumprod, t, x0) 
         xt = alphas_prod_t.sqrt() * x0 + (1.0 - alphas_prod_t).sqrt() * noise
-
         #######################
 
         return xt
@@ -113,6 +112,7 @@ class DiffusionModule(nn.Module):
         eps_factor = (1 - extract(self.var_scheduler.alphas, t, xt)) / (
             1 - extract(self.var_scheduler.alphas_cumprod, t, xt)
         ).sqrt()
+        # predict noise
         eps_theta = self.network(xt, t)
         
         alpha_t = extract(self.var_scheduler.alphas, t, xt)

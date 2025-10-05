@@ -19,6 +19,7 @@ def main(args):
     ddpm.eval()
     ddpm = ddpm.to(device)
 
+    # 학습과 동일한 scheduler 사용
     num_train_timesteps = ddpm.var_scheduler.num_train_timesteps
     ddpm.var_scheduler = DDPMScheduler(
         num_train_timesteps,
