@@ -78,6 +78,7 @@ def calculate_fid_given_paths(paths, img_size=256, batch_size=50):
     for loader in loaders:
         actvs = []
         for x in tqdm(loader, total=len(loader)):
+            # feature 추출
             actv = inception(x.to(device))
             actvs.append(actv)
         actvs = torch.cat(actvs, dim=0).cpu().detach().numpy()

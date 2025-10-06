@@ -10,7 +10,7 @@ class Swish(nn.Module):
     def forward(self, x):
         return x * torch.sigmoid(x)
 
-
+# DownSample Block
 class DownSample(nn.Module):
     def __init__(self, in_ch):
         super().__init__()
@@ -25,7 +25,7 @@ class DownSample(nn.Module):
         x = self.main(x)
         return x
 
-
+# UpSample Block
 class UpSample(nn.Module):
     def __init__(self, in_ch):
         super().__init__()
@@ -42,7 +42,7 @@ class UpSample(nn.Module):
         x = self.main(x)
         return x
 
-
+# Self-Attention Block
 class AttnBlock(nn.Module):
     def __init__(self, in_ch):
         super().__init__()
@@ -80,7 +80,7 @@ class AttnBlock(nn.Module):
 
         return x + h
 
-
+# Residual Block
 class ResBlock(nn.Module):
     def __init__(self, in_ch, out_ch, tdim, dropout, attn=False):
         super().__init__()
@@ -118,6 +118,7 @@ class ResBlock(nn.Module):
 
     def forward(self, x, temb):
         h = self.block1(x)
+        # time embedding 추가
         h += self.temb_proj(temb)[:, :, None, None]
         h = self.block2(h)
 
@@ -125,7 +126,7 @@ class ResBlock(nn.Module):
         h = self.attn(h)
         return h
 
-
+# Time Embedding
 class TimeEmbedding(nn.Module):
     def __init__(self, hidden_size, frequency_embedding_size=256):
         super().__init__()
