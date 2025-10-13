@@ -73,6 +73,7 @@ class DDPMScheduler(BaseScheduler):
         self.register_buffer("sigmas", sigmas)
 
     # ddpm.py의 p_sample()와 동일
+    # model.py의 sample()에서 call 됨.
     def step(self, x_t: torch.Tensor, t: int, eps_theta: torch.Tensor):
         """
         One step denoising function of DDPM: x_t -> x_{t-1}.
@@ -102,9 +103,9 @@ class DDPMScheduler(BaseScheduler):
         # mean 계산
         mean = (x_t - eps_factor * eps_theta) / alpha_t.sqrt()
 
-        # t>0일 때만 노이즈 추가
+        # t>1일 때만 노이즈 추가
         # algorithm 2 of DDPM paper
-        if t > 0:
+        if t > 1:
             noise = torch.randn_like(x_t)
             sample_prev = mean + sigma_t * noise
         else:
